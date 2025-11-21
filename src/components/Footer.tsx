@@ -1,0 +1,185 @@
+import { Box, Container, Typography, IconButton, Stack } from "@mui/material";
+import { Link } from "react-router-dom";
+import { 
+  Facebook, 
+  Twitter, 
+  LinkedIn, 
+  Instagram,
+  YouTube,
+  Email,
+  Phone,
+  LocationOn
+} from "@mui/icons-material";
+
+export default function Footer() {
+  return (
+    <Box
+      component="footer"
+      sx={{
+        background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
+        color: 'white',
+        pt: 8,
+        pb: 4,
+        mt: 'auto'
+      }}
+    >
+      <Container maxWidth="lg">
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(4, 1fr)' }, gap: 4, mb: 6 }}>
+          {/* Company Info */}
+          <Box>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+              Tech Bridge
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 3, opacity: 0.9, lineHeight: 1.7 }}>
+              Empowering businesses through innovative technology solutions, logistics management, and workforce optimization.
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ 
+                  color: 'white', 
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+                }}
+              >
+                <Facebook />
+              </IconButton>
+              <IconButton
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ 
+                  color: 'white', 
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+                }}
+              >
+                <Twitter />
+              </IconButton>
+              <IconButton
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ 
+                  color: 'white', 
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+                }}
+              >
+                <LinkedIn />
+              </IconButton>
+              <IconButton
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ 
+                  color: 'white', 
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+                }}
+              >
+                <Instagram />
+              </IconButton>
+              <IconButton
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ 
+                  color: 'white', 
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+                }}
+              >
+                <YouTube />
+              </IconButton>
+            </Stack>
+          </Box>
+
+          {/* Services */}
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              Services
+            </Typography>
+            <Stack spacing={1.5}>
+              <Link to="/services/hr" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                HR Services
+              </Link>
+              <Link to="/services/software-development" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                Software Development
+              </Link>
+              <Link to="/services/supply-chain" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                Supply Chain
+              </Link>
+              <Link to="/services/saas" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                SaaS Products
+              </Link>
+            </Stack>
+          </Box>
+
+          {/* Quick Links */}
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              Company
+            </Typography>
+            <Stack spacing={1.5}>
+              <Link to="/#about" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                About Us
+              </Link>
+              <Link to="/#testimonials" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                Testimonials
+              </Link>
+              <Link to="/#projects" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                Projects
+              </Link>
+              <Link to="/#contact" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+                Contact
+              </Link>
+            </Stack>
+          </Box>
+
+          {/* Contact Info */}
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              Contact Us
+            </Typography>
+            <Stack spacing={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Email sx={{ fontSize: '1.2rem' }} />
+                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                  info@techbridge.co.uk
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Phone sx={{ fontSize: '1.2rem' }} />
+                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                  +44 20 1234 5678
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'start', gap: 1.5 }}>
+                <LocationOn sx={{ fontSize: '1.2rem' }} />
+                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                  London, United Kingdom
+                </Typography>
+              </Box>
+            </Stack>
+          </Box>
+        </Box>
+
+        {/* Bottom Bar */}
+        <Box
+          sx={{
+            pt: 4,
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+            textAlign: 'center'
+          }}
+        >
+          <Typography variant="body2" sx={{ opacity: 0.9 }}>
+            © {new Date().getFullYear()} Tech Bridge. All rights reserved. | Privacy Policy | Terms of Service
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
+  );
+}

@@ -2,6 +2,280 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply antialiased;
+/* 
+===========================================
+TECH BRIDGE - CENTRALIZED DESIGN SYSTEM
+===========================================
+All colors MUST be HSL format.
+Each page has its own theme configuration.
+*/
+
+@layer base {
+  :root {
+    /* ==================== GLOBAL/DEFAULT (HOME PAGE) ==================== */
+    --background: 210 40% 98%;
+    --foreground: 222 84% 5%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 189 94% 43%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Home Page Gradients */
+    --hero-gradient-from: 217 91% 60%;
+    --hero-gradient-to: 189 94% 43%;
+    --card-gradient-from: 217 91% 60% / 0.05;
+    --card-gradient-to: 189 94% 43% / 0.05;
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(217 91% 60% / 0.3);
+    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.4);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  /* ==================== HR SERVICES PAGE THEME ==================== */
+  .theme-hr-services {
+    --background: 270 20% 98%;
+    --foreground: 271 36% 20%;
+
+    --primary: 271 91% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 291 64% 42%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 316 71% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 270 20% 96%;
+    --muted-foreground: 271 15% 45%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 271 36% 20%;
+
+    --hero-gradient-from: 271 91% 65%;
+    --hero-gradient-to: 291 64% 42%;
+    --card-gradient-from: 271 91% 65% / 0.08;
+    --card-gradient-to: 291 64% 42% / 0.08;
+
+    --shadow-elegant: 0 10px 40px -10px hsl(271 91% 65% / 0.3);
+    --shadow-glow: 0 0 40px hsl(271 91% 65% / 0.4);
+
+    --border: 270 20% 91%;
+    --input: 270 20% 91%;
+    --ring: 271 91% 65%;
+  }
+
+  /* ==================== SOFTWARE DEVELOPMENT PAGE THEME ==================== */
+  .theme-software-dev {
+    --background: 140 20% 98%;
+    --foreground: 142 30% 15%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 173 58% 39%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 140 20% 96%;
+    --muted-foreground: 142 15% 45%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 142 30% 15%;
+
+    --hero-gradient-from: 142 76% 36%;
+    --hero-gradient-to: 173 58% 39%;
+    --card-gradient-from: 142 76% 36% / 0.06;
+    --card-gradient-to: 173 58% 39% / 0.06;
+
+    --shadow-elegant: 0 10px 40px -10px hsl(142 76% 36% / 0.3);
+    --shadow-glow: 0 0 40px hsl(142 76% 36% / 0.4);
+
+    --border: 140 20% 91%;
+    --input: 140 20% 91%;
+    --ring: 142 76% 36%;
+  }
+
+  /* ==================== SUPPLY CHAIN PAGE THEME ==================== */
+  .theme-supply-chain {
+    --background: 30 40% 98%;
+    --foreground: 24 30% 15%;
+
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 36 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 14 100% 57%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 30 40% 96%;
+    --muted-foreground: 24 15% 45%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 24 30% 15%;
+
+    --hero-gradient-from: 24 100% 50%;
+    --hero-gradient-to: 36 100% 50%;
+    --card-gradient-from: 24 100% 50% / 0.06;
+    --card-gradient-to: 36 100% 50% / 0.06;
+
+    --shadow-elegant: 0 10px 40px -10px hsl(24 100% 50% / 0.3);
+    --shadow-glow: 0 0 40px hsl(24 100% 50% / 0.4);
+
+    --border: 30 40% 91%;
+    --input: 30 40% 91%;
+    --ring: 24 100% 50%;
+  }
+
+  /* ==================== SAAS PRODUCTS PAGE THEME ==================== */
+  .theme-saas-products {
+    --background: 230 20% 98%;
+    --foreground: 231 25% 18%;
+
+    --primary: 231 48% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 230 20% 96%;
+    --muted-foreground: 231 15% 45%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 231 25% 18%;
+
+    --hero-gradient-from: 231 48% 48%;
+    --hero-gradient-to: 262 83% 58%;
+    --card-gradient-from: 231 48% 48% / 0.07;
+    --card-gradient-to: 262 83% 58% / 0.07;
+
+    --shadow-elegant: 0 10px 40px -10px hsl(231 48% 48% / 0.3);
+    --shadow-glow: 0 0 40px hsl(231 48% 48% / 0.4);
+
+    --border: 230 20% 91%;
+    --input: 230 20% 91%;
+    --ring: 231 48% 48%;
+  }
+
+  /* ==================== DARK MODE ==================== */
+  .dark {
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 84% 5%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 84% 5%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 65%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 91% 65%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 217 91% 65%;
+    
+    --hero-gradient-from: 217 91% 65%;
+    --hero-gradient-to: 220 90% 75%;
+    
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 224 76% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* ==================== CUSTOM UTILITY CLASSES ==================== */
+@layer utilities {
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--hero-gradient-from)) 0%, hsl(var(--hero-gradient-to)) 100%);
+  }
+
+  .gradient-card {
+    background: linear-gradient(145deg, hsl(var(--card-gradient-from)) 0%, hsl(var(--card-gradient-to)) 100%);
+  }
+
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--hero-gradient-from)) 0%, hsl(var(--hero-gradient-to)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
