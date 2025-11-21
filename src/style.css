@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small custom utility */
+:root {
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.06);
+}
+
+/* make body use dark background */
+body {
+  @apply bg-darkbg text-gray-200 antialiased;
+}
+
+/* Custom scrollbar (optional) */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+
+/* Header blur transition classes */
+.header-glass {
+  backdrop-filter: blur(8px) saturate(1.2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.header-transparent {
+  background: transparent;
+  border-bottom: transparent;
+}
+
+/* subtle fade-up animation for items */
+.fade-up {
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform .6s ease, opacity .6s ease;
+}
+.fade-up.show {
+  transform: translateY(0);
+  opacity: 1;
+}
