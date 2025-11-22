@@ -22,8 +22,8 @@ export default function TopHeadline() {
       return;
     }
 
-    // Always expose the headline height when enabled so the nav can offset itself
-    const height = 48; // px
+  // Always expose the headline height when enabled so the nav can offset itself
+  const height = 36; // px (reduced per request)
     try { document.documentElement.style.setProperty('--top-headline-height', `${height}px`); } catch (e) {}
 
     if (!container || !content) return;
@@ -84,11 +84,13 @@ export default function TopHeadline() {
       ref={containerRef}
       sx={{
         width: '100%',
-        height: 48,
+        height: 36,
         position: 'fixed', // use fixed so it doesn't reserve layout space
         left: 0,
         top: 0,
         zIndex: 1400,
+        // allow clicks to pass through to the navbar beneath when possible
+        pointerEvents: 'none',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -105,16 +107,16 @@ export default function TopHeadline() {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', ml: 2 }}>
-        <IconButton href="https://facebook.com" target="_blank" rel="noreferrer" sx={{ color: 'white' }}>
+        <IconButton href="https://facebook.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
           <Facebook fontSize="small" />
         </IconButton>
-        <IconButton href="https://twitter.com" target="_blank" rel="noreferrer" sx={{ color: 'white' }}>
+        <IconButton href="https://twitter.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
           <Twitter fontSize="small" />
         </IconButton>
-        <IconButton href="https://linkedin.com" target="_blank" rel="noreferrer" sx={{ color: 'white' }}>
+        <IconButton href="https://linkedin.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
           <LinkedIn fontSize="small" />
         </IconButton>
-        <IconButton href="https://instagram.com" target="_blank" rel="noreferrer" sx={{ color: 'white' }}>
+        <IconButton href="https://instagram.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
           <Instagram fontSize="small" />
         </IconButton>
       </Box>

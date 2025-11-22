@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
   AppBar, 
@@ -82,6 +82,12 @@ export default function Navigation() {
     handleClose();
   };
 
+  useEffect(() => {
+    // expose a CSS variable for nav height so content can be offset when nav is fixed
+    try { document.documentElement.style.setProperty('--nav-height', '64px'); } catch (e) {}
+    return () => { try { document.documentElement.style.removeProperty('--nav-height'); } catch (e) {} };
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
       window.location.href = `/#${sectionId}`;
@@ -97,13 +103,13 @@ export default function Navigation() {
 
   return (
     <AppBar 
-      position="sticky" 
+      position="fixed" 
       elevation={0}
       sx={(theme) => ({ 
         // offset by the top headline height if present
         top: 'var(--top-headline-height, 0)',
-        position: 'sticky',
-        zIndex: (theme as any).zIndex?.appBar ? (theme as any).zIndex.appBar + 20 : 1200,
+        position: 'fixed',
+        zIndex: (theme as any).zIndex?.appBar ? (theme as any).zIndex.appBar + 40 : 1250,
         bgcolor: 'background.paper',
         borderBottom: '1px solid',
         borderColor: 'divider'

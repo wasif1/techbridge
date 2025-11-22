@@ -247,6 +247,8 @@ Each page has its own theme configuration.
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    /* offset the page content when headline + nav are fixed at the top */
+    padding-top: calc(var(--top-headline-height, 0) + var(--nav-height, 64px));
   }
 
   h1, h2, h3, h4, h5, h6 {
