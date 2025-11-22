@@ -148,6 +148,13 @@ export const themeConfig = {
       '2xl': '1.5rem',
     }
   }
+  ,
+  // Site-wide small content (headline that shows above footer when enabled)
+  siteHeadline: {
+    enabled: true,
+    // short, readable headline shown on every page (editable here)
+    text: 'Global offer: Free discovery call for new clients — mention code LAUNCH24'
+  }
 };
 
 export type PageTheme = keyof Omit<typeof themeConfig, 'shared'>;

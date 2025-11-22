@@ -1,5 +1,6 @@
 import { Box, Container, Typography, IconButton, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { themeConfig } from '@/config/theme.config';
 import { 
   Facebook, 
   Twitter, 
@@ -16,14 +17,15 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
+        /* Static footer background chosen to work well with all theme accents */
+        background: '#111827',
         color: 'white',
         pt: 8,
         pb: 4,
         mt: 'auto'
       }}
     >
-      <Container maxWidth="lg">
+        <Container maxWidth="lg">
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(4, 1fr)' }, gap: 4, mb: 6 }}>
           {/* Company Info */}
           <Box>
@@ -103,16 +105,16 @@ export default function Footer() {
               Services
             </Typography>
             <Stack spacing={1.5}>
-              <Link to="/services/hr" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/services/hr" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 HR Services
               </Link>
-              <Link to="/services/software-development" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/services/software-development" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 Software Development
               </Link>
-              <Link to="/services/supply-chain" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/services/supply-chain" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 Supply Chain
               </Link>
-              <Link to="/services/saas" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/services/saas" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 SaaS Products
               </Link>
             </Stack>
@@ -124,16 +126,16 @@ export default function Footer() {
               Company
             </Typography>
             <Stack spacing={1.5}>
-              <Link to="/#about" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/#about" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 About Us
               </Link>
-              <Link to="/#testimonials" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/#testimonials" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 Testimonials
               </Link>
-              <Link to="/#projects" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/#projects" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 Projects
               </Link>
-              <Link to="/#contact" style={{ color: 'white', textDecoration: 'none', opacity: 0.9, fontSize: '0.9rem' }}>
+              <Link to="/#contact" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
                 Contact
               </Link>
             </Stack>
@@ -146,19 +148,19 @@ export default function Footer() {
             </Typography>
             <Stack spacing={2}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Email sx={{ fontSize: '1.2rem' }} />
+                <Email sx={{ fontSize: '1.2rem', color: 'var(--hero-color, hsl(var(--primary)))', transition: 'color var(--hero-transition-duration) ease' }} />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
                   info@techbridge.co.uk
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Phone sx={{ fontSize: '1.2rem' }} />
+                <Phone sx={{ fontSize: '1.2rem', color: 'var(--hero-color, hsl(var(--primary)))', transition: 'color var(--hero-transition-duration) ease' }} />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
                   +44 20 1234 5678
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'start', gap: 1.5 }}>
-                <LocationOn sx={{ fontSize: '1.2rem' }} />
+                <LocationOn sx={{ fontSize: '1.2rem', color: 'var(--hero-color, hsl(var(--primary)))', transition: 'color var(--hero-transition-duration) ease' }} />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
                   London, United Kingdom
                 </Typography>

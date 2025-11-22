@@ -99,24 +99,29 @@ export default function Navigation() {
     <AppBar 
       position="sticky" 
       elevation={0}
-      sx={{ 
+      sx={(theme) => ({ 
+        // offset by the top headline height if present
+        top: 'var(--top-headline-height, 0)',
+        position: 'sticky',
+        zIndex: (theme as any).zIndex?.appBar ? (theme as any).zIndex.appBar + 20 : 1200,
         bgcolor: 'background.paper',
         borderBottom: '1px solid',
         borderColor: 'divider'
-      }}
+      })}
     >
       <Container maxWidth="xl">
         <Toolbar sx={{ justifyContent: "space-between", py: 1 }}>
-          <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to="/" style={{ textDecoration: "none" }}>
             <Typography 
               variant="h5" 
               component="div" 
               sx={{ 
                 fontWeight: 700,
-                background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
+                background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--primaryLight))) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                backgroundClip: 'text',
+                transition: 'background var(--hero-transition-duration) ease'
               }}
             >
               Tech Bridge
@@ -129,9 +134,10 @@ export default function Navigation() {
               component={Link} 
               to="/"
               sx={{ 
-                color: isActive('/') ? 'primary.main' : 'text.primary',
+                color: isActive('/') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
                 fontWeight: isActive('/') ? 600 : 400,
-                '&:hover': { color: 'primary.main' }
+                transition: 'color var(--hero-transition-duration) ease',
+                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
               }}
             >
               Home
@@ -141,7 +147,8 @@ export default function Navigation() {
               onClick={() => scrollToSection('about')}
               sx={{ 
                 color: 'text.primary',
-                '&:hover': { color: 'primary.main' }
+                transition: 'color var(--hero-transition-duration) ease',
+                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
               }}
             >
               About
@@ -151,9 +158,10 @@ export default function Navigation() {
               onClick={handleClick}
               endIcon={<ArrowForward sx={{ transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />}
               sx={{ 
-                color: location.pathname.includes('/services') ? 'primary.main' : 'text.primary',
+                color: location.pathname.includes('/services') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
                 fontWeight: location.pathname.includes('/services') ? 600 : 400,
-                '&:hover': { color: 'primary.main' }
+                transition: 'color var(--hero-transition-duration) ease',
+                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
               }}
             >
               Services
@@ -163,7 +171,8 @@ export default function Navigation() {
               onClick={() => scrollToSection('contact')}
               sx={{ 
                 color: 'text.primary',
-                '&:hover': { color: 'primary.main' }
+                transition: 'color var(--hero-transition-duration) ease',
+                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
               }}
             >
               Contact
@@ -174,10 +183,11 @@ export default function Navigation() {
               onClick={() => scrollToSection('contact')}
               sx={{ 
                 ml: 2,
-                background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
+                background: 'var(--hero-color, hsl(var(--primary)))',
                 boxShadow: 'var(--shadow-elegant)',
+                transition: 'background var(--hero-transition-duration) ease',
                 '&:hover': {
-                  boxShadow: '0 15px 40px -15px hsl(217 91% 60% / 0.4)',
+                  boxShadow: '0 15px 40px -15px rgba(0,0,0,0.15)',
                 }
               }}
             >
@@ -246,7 +256,7 @@ export default function Navigation() {
                       }
                     }}
                   >
-                    <ListItemIcon sx={{ color: 'primary.main', minWidth: 40 }}>
+                    <ListItemIcon sx={{ color: 'var(--hero-color, hsl(var(--primary)))', minWidth: 40, transition: 'color var(--hero-transition-duration) ease' }}>
                       {service.icon}
                     </ListItemIcon>
                     <ListItemText 
@@ -259,18 +269,20 @@ export default function Navigation() {
               </List>
             </Box>
             <Box sx={{ flex: '0 0 37%' }}>
-              <Box
-                sx={{
-                  height: '100%',
-                  borderRadius: 3,
-                  background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  p: 3,
-                  color: 'white'
-                }}
-              >
+                  <Box
+                    sx={{
+                      height: '100%',
+                      borderRadius: 3,
+                      // use the hero color (solid) as a reliable fallback for the menu panel
+                      background: 'var(--hero-color, hsl(var(--hero-gradient-from)))',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      p: 3,
+                      color: 'white',
+                      transition: 'background var(--hero-transition-duration) ease'
+                    }}
+                  >
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
                     Ready to Scale?
@@ -285,7 +297,8 @@ export default function Navigation() {
                     onClick={handleClose}
                     sx={{ 
                       bgcolor: 'white',
-                      color: 'primary.main',
+                      color: 'var(--hero-color)',
+                      transition: 'color var(--hero-transition-duration) ease',
                       '&:hover': { 
                         bgcolor: 'rgba(255,255,255,0.9)' 
                       }
@@ -316,7 +329,7 @@ export default function Navigation() {
       >
         <Box sx={{ p: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: 'var(--hero-color, hsl(var(--primary)))', transition: 'color var(--hero-transition-duration) ease' }}>
               Tech Bridge
             </Typography>
             <IconButton onClick={handleDrawerToggle}>
@@ -332,7 +345,7 @@ export default function Navigation() {
               fullWidth
               sx={{ 
                 justifyContent: 'flex-start',
-                color: isActive('/') ? 'primary.main' : 'text.primary',
+                color: isActive('/') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
                 fontWeight: isActive('/') ? 600 : 400,
                 py: 1.5
               }}
@@ -384,7 +397,7 @@ export default function Navigation() {
                       }
                     }}
                   >
-                    <ListItemIcon sx={{ color: 'primary.main', minWidth: 36 }}>
+                    <ListItemIcon sx={{ color: 'var(--hero-color, hsl(var(--primary)))', minWidth: 36, transition: 'color var(--hero-transition-duration) ease' }}>
                       {service.icon}
                     </ListItemIcon>
                     <ListItemText 
@@ -420,7 +433,8 @@ export default function Navigation() {
               fullWidth
               sx={{ 
                 mt: 2,
-                background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
+                background: 'var(--hero-color, hsl(var(--primary)))',
+                transition: 'background var(--hero-transition-duration) ease',
                 py: 1.5
               }}
             >

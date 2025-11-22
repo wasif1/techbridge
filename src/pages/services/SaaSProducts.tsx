@@ -1,6 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { useEffect } from 'react';
+import { themeConfig } from '@/config/theme.config';
 import { 
   Container, 
   Typography, 
@@ -26,6 +28,18 @@ import {
 import { Link } from "react-router-dom";
 
 export default function SaaSProducts() {
+  useEffect(() => {
+    try {
+      const colors = themeConfig.saasProducts.colors;
+      document.documentElement.style.setProperty('--primary', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-from', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-to', themeConfig.saasProducts.colors.secondary);
+      document.documentElement.style.setProperty('--hero-color', `hsl(${colors.primary})`);
+      document.documentElement.style.setProperty('--hero-color-to', `hsl(${themeConfig.saasProducts.colors.secondary})`);
+      document.documentElement.style.setProperty('--hero-transition-duration', '1800ms');
+    } catch (e) {}
+    try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
+  }, []);
   const products = [
     "Business Management Platform",
     "HR & Payroll System",
@@ -123,7 +137,7 @@ export default function SaaSProducts() {
               size="large"
               sx={{ 
                 bgcolor: 'white',
-                color: 'primary.main',
+                color: 'hsl(var(--primary))',
                 px: 5,
                 py: 1.5,
                 '&:hover': { 
@@ -206,7 +220,7 @@ export default function SaaSProducts() {
                 }}
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <Box sx={{ color: 'primary.main', mb: 2 }}>
+                  <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
                     {feature.icon}
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
@@ -239,7 +253,7 @@ export default function SaaSProducts() {
                   height: '100%',
                   position: 'relative',
                   border: plan.highlighted ? '2px solid' : 'none',
-                  borderColor: 'primary.main',
+                  borderColor: 'hsl(var(--primary))',
                   transition: 'all 0.3s',
                   '&:hover': {
                     transform: 'translateY(-8px)',
@@ -266,7 +280,7 @@ export default function SaaSProducts() {
                     <Typography 
                       variant="h3" 
                       component="span"
-                      sx={{ fontWeight: 700, color: 'primary.main' }}
+                      sx={{ fontWeight: 700, color: 'hsl(var(--primary))' }}
                     >
                       {plan.price}
                     </Typography>

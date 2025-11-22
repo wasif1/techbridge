@@ -279,3 +279,13 @@ Each page has its own theme configuration.
     background-clip: text;
   }
 }
+
+/* Prevent horizontal scrolling caused by overflowing elements (safer global guard) */
+html, body, #root {
+  overflow-x: hidden;
+}
+
+/* Small helper to ensure any full-bleed elements don't create horizontal scroll */
+.no-overflow-x {
+  overflow-x: hidden !important;
+}

@@ -1,6 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { useEffect } from 'react';
+import { themeConfig } from '@/config/theme.config';
 import { 
   Container, 
   Typography, 
@@ -26,6 +28,18 @@ import {
 import { Link } from "react-router-dom";
 
 export default function SoftwareDevelopment() {
+  useEffect(() => {
+    try {
+      const colors = themeConfig.softwareDevelopment.colors;
+      document.documentElement.style.setProperty('--primary', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-from', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-to', themeConfig.softwareDevelopment.colors.secondary);
+      document.documentElement.style.setProperty('--hero-color', `hsl(${colors.primary})`);
+      document.documentElement.style.setProperty('--hero-color-to', `hsl(${themeConfig.softwareDevelopment.colors.secondary})`);
+      document.documentElement.style.setProperty('--hero-transition-duration', '1800ms');
+    } catch (e) {}
+    try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
+  }, []);
   const services = [
     "Custom Web Application Development",
     "Mobile App Development (iOS & Android)",
@@ -108,7 +122,7 @@ export default function SoftwareDevelopment() {
               size="large"
               sx={{ 
                 bgcolor: 'white',
-                color: 'primary.main',
+                color: 'hsl(var(--primary))',
                 px: 5,
                 py: 1.5,
                 '&:hover': { 
@@ -184,7 +198,7 @@ export default function SoftwareDevelopment() {
             {technologies.map((tech, index) => (
               <Card key={index} sx={{ height: '100%', textAlign: 'center' }}>
                 <CardContent sx={{ p: 4 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, color: 'primary.main' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, color: 'hsl(var(--primary))' }}>
                     {tech.name}
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
@@ -219,7 +233,7 @@ export default function SoftwareDevelopment() {
                 }}
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <Box sx={{ color: 'primary.main', mb: 2 }}>
+                  <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
                     {feature.icon}
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>

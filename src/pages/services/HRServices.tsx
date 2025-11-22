@@ -1,5 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { themeConfig } from '@/config/theme.config';
 import { motion } from "framer-motion";
 import { 
   Container, 
@@ -24,6 +26,22 @@ import {
 import { Link } from "react-router-dom";
 
 export default function HRServices() {
+  useEffect(() => {
+    try {
+      const colors = themeConfig.hrServices.colors;
+      // set root-level vars so Navigation and other global components pick the page's static theme
+      document.documentElement.style.setProperty('--primary', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-from', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-to', themeConfig.hrServices.colors.secondary);
+      document.documentElement.style.setProperty('--hero-color', `hsl(${colors.primary})`);
+      document.documentElement.style.setProperty('--hero-color-to', `hsl(${themeConfig.hrServices.colors.secondary})`);
+      document.documentElement.style.setProperty('--hero-transition-duration', '1800ms');
+    } catch (e) {
+      // ignore
+    }
+    // ensure page starts at top when navigated to
+    try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
+  }, []);
   const features = [
     "Talent Acquisition & Recruitment",
     "Employee Onboarding & Training",
@@ -65,6 +83,7 @@ export default function HRServices() {
 
   return (
     <div className="min-h-screen theme-hr-services">
+  {/* root vars and scroll-to-top are set in useEffect above */}
       <Navigation />
 
       {/* Hero Section */}
@@ -87,14 +106,14 @@ export default function HRServices() {
             <Typography variant="h5" sx={{ mb: 4, opacity: 0.95, maxWidth: 800 }}>
               Complete workforce management solutions to help you attract, develop, and retain top talent
             </Typography>
-            <Button 
+              <Button 
               variant="contained"
               component={Link}
               to="/#contact"
               size="large"
               sx={{ 
                 bgcolor: 'white',
-                color: 'primary.main',
+                color: 'hsl(var(--primary))',
                 px: 5,
                 py: 1.5,
                 '&:hover': { 
@@ -127,7 +146,7 @@ export default function HRServices() {
               </Typography>
             </Box>
             <Box sx={{ flex: 1 }}>
-              <Box
+                <Box
                 sx={{
                   background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
                   borderRadius: 4,
@@ -177,7 +196,7 @@ export default function HRServices() {
                 }}
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <Box sx={{ color: 'primary.main', mb: 2 }}>
+                  <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
                     {benefit.icon}
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>

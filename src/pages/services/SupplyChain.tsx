@@ -1,6 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { useEffect } from 'react';
+import { themeConfig } from '@/config/theme.config';
 import { 
   Container, 
   Typography, 
@@ -24,6 +26,18 @@ import {
 import { Link } from "react-router-dom";
 
 export default function SupplyChain() {
+  useEffect(() => {
+    try {
+      const colors = themeConfig.supplyChain.colors;
+      document.documentElement.style.setProperty('--primary', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-from', colors.primary);
+      document.documentElement.style.setProperty('--hero-gradient-to', themeConfig.supplyChain.colors.secondary);
+      document.documentElement.style.setProperty('--hero-color', `hsl(${colors.primary})`);
+      document.documentElement.style.setProperty('--hero-color-to', `hsl(${themeConfig.supplyChain.colors.secondary})`);
+      document.documentElement.style.setProperty('--hero-transition-duration', '1800ms');
+    } catch (e) {}
+    try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
+  }, []);
   const services = [
     "End-to-End Logistics Management",
     "Supply Chain Optimization",
@@ -94,7 +108,7 @@ export default function SupplyChain() {
               size="large"
               sx={{ 
                 bgcolor: 'white',
-                color: 'primary.main',
+                color: 'hsl(var(--primary))',
                 px: 5,
                 py: 1.5,
                 '&:hover': { 
@@ -177,7 +191,7 @@ export default function SupplyChain() {
                 }}
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <Box sx={{ color: 'primary.main', mb: 2 }}>
+                  <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
                     {benefit.icon}
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
@@ -214,7 +228,7 @@ export default function SupplyChain() {
                   variant="h2" 
                   sx={{ 
                     fontWeight: 700, 
-                    color: 'primary.main', 
+                    color: 'hsl(var(--primary))', 
                     opacity: 0.2,
                     mb: 2
                   }}
