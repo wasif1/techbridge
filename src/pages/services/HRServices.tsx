@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import { themeConfig } from '@/config/theme.config';
+import hrContent from '@/content/services/hr';
 import { motion } from "framer-motion";
 import { 
   Container, 
@@ -50,44 +51,8 @@ export default function HRServices() {
     // ensure page starts at top when navigated to
     try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
   }, []);
-  const features = [
-    "Talent Acquisition & Recruitment",
-    "Employee Onboarding & Training",
-    "Payroll & Benefits Management",
-    "Performance Management Systems",
-    "HR Compliance & Legal Support",
-    "Organizational Development",
-    "Employee Engagement Programs",
-    "Workforce Planning & Analytics"
-  ];
-
-  const benefits = [
-    {
-      icon: <People sx={{ fontSize: 48 }} />,
-      title: "Expert Recruitment",
-      description: "Access to top talent pools and streamlined hiring processes"
-    },
-    {
-      icon: <Business sx={{ fontSize: 48 }} />,
-      title: "Compliance Assured",
-      description: "Stay compliant with all employment laws and regulations"
-    },
-    {
-      icon: <Timeline sx={{ fontSize: 48 }} />,
-      title: "Scalable Solutions",
-      description: "HR systems that grow with your business needs"
-    },
-    {
-      icon: <School sx={{ fontSize: 48 }} />,
-      title: "Training & Development",
-      description: "Comprehensive employee development programs"
-    },
-    {
-      icon: <Assessment sx={{ fontSize: 48 }} />,
-      title: "Data-Driven Insights",
-      description: "Analytics and reporting for informed HR decisions"
-    }
-  ];
+  const features = hrContent.features;
+  const benefits = hrContent.benefits;
 
   return (
     <div className="min-h-screen theme-hr-services">
@@ -204,7 +169,18 @@ export default function HRServices() {
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
                   <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
-                    {benefit.icon}
+                    {
+                      (() => {
+                        const map: Record<string, any> = {
+                          People: <People sx={{ fontSize: 48 }} />,
+                          Business: <Business sx={{ fontSize: 48 }} />,
+                          Timeline: <Timeline sx={{ fontSize: 48 }} />,
+                          School: <School sx={{ fontSize: 48 }} />,
+                          Assessment: <Assessment sx={{ fontSize: 48 }} />
+                        };
+                        return map[(benefit as any).iconKey] ?? <CheckCircle sx={{ fontSize: 48 }} />;
+                      })()
+                    }
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     {benefit.title}

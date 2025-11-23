@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import { themeConfig } from '@/config/theme.config';
+import softwareContent from '@/content/services/softwareDevelopment';
 import { 
   Container, 
   Typography, 
@@ -48,56 +49,9 @@ export default function SoftwareDevelopment() {
     } catch (e) {}
     try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
   }, []);
-  const services = [
-    "Custom Web Application Development",
-    "Mobile App Development (iOS & Android)",
-    "Enterprise Software Solutions",
-    "Cloud-Based Systems & SaaS",
-    "API Development & Integration",
-    "E-commerce Platforms",
-    "Database Design & Management",
-    "DevOps & CI/CD Implementation"
-  ];
-
-  const technologies = [
-    { name: "Frontend", items: ["React", "Vue.js", "Angular", "Next.js"] },
-    { name: "Backend", items: ["Node.js", "Python", "Java", ".NET"] },
-    { name: "Mobile", items: ["React Native", "Flutter", "Swift", "Kotlin"] },
-    { name: "Cloud", items: ["AWS", "Azure", "Google Cloud", "Docker"] }
-  ];
-
-  const features = [
-    {
-      icon: <Code sx={{ fontSize: 48 }} />,
-      title: "Custom Development",
-      description: "Tailored solutions built to your exact specifications and business needs"
-    },
-    {
-      icon: <CloudQueue sx={{ fontSize: 48 }} />,
-      title: "Cloud-Native",
-      description: "Scalable cloud architecture for maximum performance and reliability"
-    },
-    {
-      icon: <PhoneAndroid sx={{ fontSize: 48 }} />,
-      title: "Cross-Platform",
-      description: "Applications that work seamlessly across all devices and platforms"
-    },
-    {
-      icon: <Web sx={{ fontSize: 48 }} />,
-      title: "Modern UI/UX",
-      description: "Beautiful, intuitive interfaces that users love to interact with"
-    },
-    {
-      icon: <Security sx={{ fontSize: 48 }} />,
-      title: "Secure & Compliant",
-      description: "Industry-standard security practices and compliance certifications"
-    },
-    {
-      icon: <Speed sx={{ fontSize: 48 }} />,
-      title: "Agile Delivery",
-      description: "Fast, iterative development with regular updates and feedback"
-    }
-  ];
+  const services = softwareContent.services;
+  const technologies = softwareContent.technologies;
+  const features = softwareContent.features;
 
   return (
     <div className="min-h-screen theme-software-dev">
@@ -241,7 +195,19 @@ export default function SoftwareDevelopment() {
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
                   <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
-                    {feature.icon}
+                    {
+                      (() => {
+                        const map: Record<string, any> = {
+                          Code: <Code sx={{ fontSize: 48 }} />,
+                          CloudQueue: <CloudQueue sx={{ fontSize: 48 }} />,
+                          PhoneAndroid: <PhoneAndroid sx={{ fontSize: 48 }} />,
+                          Web: <Web sx={{ fontSize: 48 }} />,
+                          Security: <Security sx={{ fontSize: 48 }} />,
+                          Speed: <Speed sx={{ fontSize: 48 }} />
+                        };
+                        return map[(feature as any).iconKey] ?? <Code sx={{ fontSize: 48 }} />;
+                      })()
+                    }
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     {feature.title}

@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import { themeConfig } from '@/config/theme.config';
+import saasContent from '@/content/services/saasProducts';
 import { 
   Container, 
   Typography, 
@@ -48,71 +49,9 @@ export default function SaaSProducts() {
     } catch (e) {}
     try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
   }, []);
-  const products = [
-    "Business Management Platform",
-    "HR & Payroll System",
-    "Supply Chain Management Tool",
-    "Project Management Software",
-    "Customer Relationship Management (CRM)",
-    "Analytics & Reporting Dashboard",
-    "Team Collaboration Suite",
-    "Inventory Management System"
-  ];
-
-  const features = [
-    {
-      icon: <Cloud sx={{ fontSize: 48 }} />,
-      title: "Cloud-Based",
-      description: "Access your data anytime, anywhere from any device"
-    },
-    {
-      icon: <Autorenew sx={{ fontSize: 48 }} />,
-      title: "Automatic Updates",
-      description: "Always stay current with the latest features and improvements"
-    },
-    {
-      icon: <Security sx={{ fontSize: 48 }} />,
-      title: "Enterprise Security",
-      description: "Bank-level encryption and security protocols"
-    },
-    {
-      icon: <Speed sx={{ fontSize: 48 }} />,
-      title: "High Performance",
-      description: "Lightning-fast response times and reliable uptime"
-    },
-    {
-      icon: <TrendingUp sx={{ fontSize: 48 }} />,
-      title: "Scalable",
-      description: "Grows with your business from startup to enterprise"
-    },
-    {
-      icon: <Groups sx={{ fontSize: 48 }} />,
-      title: "Collaborative",
-      description: "Built for teams to work together seamlessly"
-    }
-  ];
-
-  const pricing = [
-    {
-      tier: "Starter",
-      price: "$49",
-      period: "/month",
-      features: ["Up to 10 users", "5GB storage", "Basic support", "Core features"]
-    },
-    {
-      tier: "Professional",
-      price: "$149",
-      period: "/month",
-      features: ["Up to 50 users", "50GB storage", "Priority support", "Advanced features", "Custom integrations"],
-      highlighted: true
-    },
-    {
-      tier: "Enterprise",
-      price: "Custom",
-      period: "",
-      features: ["Unlimited users", "Unlimited storage", "24/7 support", "All features", "Dedicated account manager", "Custom development"]
-    }
-  ];
+  const products = saasContent.products;
+  const features = saasContent.features;
+  const pricing = saasContent.pricing;
 
   return (
     <div className="min-h-screen theme-saas-products">
@@ -228,7 +167,19 @@ export default function SaaSProducts() {
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
                   <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
-                    {feature.icon}
+                    {
+                      (() => {
+                        const map: Record<string, any> = {
+                          Cloud: <Cloud sx={{ fontSize: 48 }} />,
+                          Autorenew: <Autorenew sx={{ fontSize: 48 }} />,
+                          Security: <Security sx={{ fontSize: 48 }} />,
+                          Speed: <Speed sx={{ fontSize: 48 }} />,
+                          TrendingUp: <TrendingUp sx={{ fontSize: 48 }} />,
+                          Groups: <Groups sx={{ fontSize: 48 }} />
+                        };
+                        return map[(feature as any).iconKey] ?? <Cloud sx={{ fontSize: 48 }} />;
+                      })()
+                    }
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     {feature.title}

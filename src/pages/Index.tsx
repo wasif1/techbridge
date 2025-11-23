@@ -10,125 +10,63 @@ import {
   TextField,
   Button,
   Avatar,
-  Chip
+  Chip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Tooltip,
+  Fade
 } from "@mui/material";
-import { FormatQuote, Launch, Facebook, Twitter, LinkedIn, Instagram } from "@mui/icons-material";
+import { FormatQuote, Launch, Facebook, Twitter, LinkedIn, Instagram, CheckCircle, WhatsApp } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Code, LocalShipping, People, Cloud } from "@mui/icons-material";
+import { slides as slidesData, servicesSummary, testimonials as testimonialsData, projects as projectsData, getSlideTheme, heroTitle, heroSubtitle, heroCTA, about, servicesSection, testimonialsSection, projectsSection, contactSection, whyChooseUs } from '@/content/home';
 import Navigation from "@/components/Navigation";
 import { Link } from 'react-router-dom';
 import Footer from "@/components/Footer";
 import { themeConfig } from "@/config/theme.config";
 
-  const testimonials = [
-  {
-    name: "Sarah Johnson",
-    company: "Tech Innovations Ltd",
-    role: "CTO",
-    text: "Tech Bridge transformed our development process. Their team delivered a scalable solution that exceeded our expectations.",
-    rating: 5
-  },
-  {
-    name: "Michael Chen",
-    company: "Global Logistics Corp",
-    role: "Operations Director",
-    text: "Outstanding logistics management. They optimized our supply chain and reduced costs by 30% in just 6 months.",
-    rating: 5
-  },
-  {
-    name: "Emma Williams",
-    company: "HR Solutions Inc",
-    role: "CEO",
-    text: "Their HR services are exceptional. Professional, efficient, and truly understand the needs of growing businesses.",
-    rating: 5
-  }
-  ,
-  {
-    name: "Liam Roberts",
-    company: "Green Retailers",
-    role: "Head of Product",
-    text: "Delivered a flexible platform that scaled with our seasonal demand. Highly recommended.",
-    rating: 5
-  },
-  {
-    name: "Aisha Khan",
-    company: "BrightHire",
-    role: "HR Manager",
-    text: "Helped us build an efficient recruitment pipeline — reduced time-to-hire by 45%.",
-    rating: 5
-  },
-  {
-    name: "Carlos M.",
-    company: "LogiTrans",
-    role: "COO",
-    text: "Proactive team, clear communication, and measurable improvements across our routes.",
-    rating: 5
-  }
-];
-
-const projects = [
-  {
-    title: "E-Commerce Platform",
-    category: "Software Development",
-    description: "Built a complete e-commerce solution with inventory management, payment integration, and real-time analytics.",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    image: "https://images.unsplash.com/photo-1525909002-6c1b0a4d6f3a?q=80&w=1600&auto=format&fit=crop"
-  },
-  {
-    title: "Supply Chain Optimization",
-    category: "Logistics",
-    description: "Streamlined international shipping operations for a major retailer, reducing delivery times by 40%.",
-    tags: ["Logistics", "Automation", "Analytics"],
-    image: "https://images.unsplash.com/photo-1542736667-069246bdbc6d?q=80&w=1600&auto=format&fit=crop"
-  },
-  {
-    title: "HR Management System",
-    category: "HR Services",
-    description: "Developed a comprehensive HR platform for employee onboarding, payroll, and performance tracking.",
-    tags: ["SaaS", "Cloud", "Automation"],
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop"
-  },
-  {
-    title: "Business Intelligence Dashboard",
-    category: "SaaS Product",
-    description: "Created a data visualization platform that helps businesses make informed decisions with real-time insights.",
-    tags: ["Analytics", "Cloud", "AI"],
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop"
-  }
-];
+  const testimonials = testimonialsData;
+  const projects = projectsData;
 
 export default function Index() {
   // Image slider for the home hero. Each slide provides an image and a matching accent color
   // Services pages remain static and use their per-page theme classes.
-  const slides = [
-    {
-      img: 'https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=2000&auto=format&fit=crop',
-      from: `hsl(${themeConfig.home.colors.primary})`,
-      to: `hsl(${themeConfig.home.colors.secondary})`
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop',
-      from: `hsl(${themeConfig.softwareDevelopment.colors.primary})`,
-      to: `hsl(${themeConfig.softwareDevelopment.colors.secondary})`
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1520975915464-3f4a8a4b4f3a?q=80&w=2000&auto=format&fit=crop',
-      from: `hsl(${themeConfig.hrServices.colors.primary})`,
-      to: `hsl(${themeConfig.hrServices.colors.secondary})`
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1542736667-069246bdbc6d?q=80&w=2000&auto=format&fit=crop',
-      from: `hsl(${themeConfig.supplyChain.colors.primary})`,
-      to: `hsl(${themeConfig.supplyChain.colors.secondary})`
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop',
-      from: `hsl(${themeConfig.saasProducts.colors.primary})`,
-      to: `hsl(${themeConfig.saasProducts.colors.secondary})`
-    }
-  ];
+  // Build slides from content constants and theme config so visuals stay data-driven
+  const slides = slidesData.map((s) => {
+    const colors = getSlideTheme(s.theme);
+    return {
+      img: s.img,
+      from: `hsl(${colors.primary})`,
+      to: `hsl(${colors.secondary})`
+    };
+  });
 
   const [active, setActive] = useState(0);
+  const [selectedService, setSelectedService] = useState('');
+  // support both possible shapes (contactSection.whatsapp or contactSection.info.whatsapp)
+  const whatsappInfo = ((contactSection as any).whatsapp) || ((contactSection.info as any).whatsapp);
+  const [showWhatsAppTooltip, setShowWhatsAppTooltip] = useState(false);
+
+  useEffect(() => {
+    if (!whatsappInfo?.number) return;
+    // show tooltip briefly on first load (3s), then allow normal hover behavior
+    setShowWhatsAppTooltip(true);
+    const t = setTimeout(() => setShowWhatsAppTooltip(false), 3000);
+    return () => clearTimeout(t);
+  }, [whatsappInfo?.number]);
+
+  // Build the wa.me link and optionally prefill text using the template from content.
+  const whatsappTemplate = ((contactSection as any).whatsappMessageTemplate) || ((contactSection as any).info?.whatsappMessageTemplate) || ((contactSection as any).whatsapp?.message) || '';
+  const buildWhatsAppHref = () => {
+    if (!whatsappInfo?.number) return `https://wa.me/${whatsappInfo?.number || ''}`;
+    const serviceText = selectedService || 'your services';
+    let text = whatsappTemplate || `Hello! 👋 Welcome to Tech Bridge — I'd like to connect about ${serviceText}. Could you share more details?`;
+    text = text.replace('{service}', serviceText);
+    const encoded = encodeURIComponent(text);
+    return `https://wa.me/${whatsappInfo.number}?text=${encoded}`;
+  };
 
   useEffect(() => {
     const id = setInterval(() => setActive((s) => (s + 1) % slides.length), 5000);
@@ -221,7 +159,7 @@ export default function Index() {
                   textShadow: '0 4px 20px rgba(0,0,0,0.2)'
                 }}
               >
-                Empowering Innovation Through Technology & Logistics
+                {heroTitle}
               </Typography>
             </motion.div>
             <motion.div
@@ -241,8 +179,7 @@ export default function Index() {
                   fontWeight: 400
                 }}
               >
-                Tech Bridge connects businesses to next-generation IT solutions, logistics operations, 
-                and workforce management — helping companies grow efficiently across the globe.
+                {heroSubtitle}
               </Typography>
             </motion.div>
             <motion.div
@@ -276,7 +213,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  Explore Services
+                  {heroCTA}
                 </Box>
               </motion.a>
             </motion.div>
@@ -308,17 +245,16 @@ export default function Index() {
                     transition: 'color var(--hero-transition-duration) ease'
                   }}
                 >
-                  WHO WE ARE
+                  {about.overline}
                 </Typography>
                 <Typography variant="h3" sx={{ fontWeight: 700, mb: 3, mt: 1 }}>
-                  About Tech Bridge
+                  {about.title}
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.9, fontSize: '1.1rem' }}>
-                  Founded by a dynamic team of four leaders — each an expert in their field — Tech Bridge 
-                  integrates IT software development, logistics procurement, HR management, and marketing 
-                  into one cohesive powerhouse. Our mission is to simplify business operations and empower 
-                  global expansion.
-                </Typography>
+                {about.paragraphs.map((p, i) => (
+                  <Typography key={i} variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.9, fontSize: '1.1rem', mb: 2 }}>
+                    {p}
+                  </Typography>
+                ))}
               </motion.div>
             </Box>
             <Box sx={{ flex: 1 }}>
@@ -361,35 +297,20 @@ export default function Index() {
                       Trusted by Businesses Worldwide
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.95)', maxWidth: 520, mx: 'auto' }}>
-                      We build scalable systems, optimize logistics networks, and help you attract and retain the right talent.
-                      A combined offering so your operations run smoothly end-to-end.
+                      {about.paragraphs[1]}
                     </Typography>
 
                     <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', mt: 6, flexWrap: 'wrap' }}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h2" sx={{ color: 'white', fontWeight: 800 }}>
-                          500+
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                          Projects
-                        </Typography>
-                      </Box>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h2" sx={{ color: 'white', fontWeight: 800 }}>
-                          50+
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                          Countries
-                        </Typography>
-                      </Box>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h2" sx={{ color: 'white', fontWeight: 800 }}>
-                          120+
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                          Skilled Consultants
-                        </Typography>
-                      </Box>
+                      {about.stats.map((s, i) => (
+                        <Box key={i} sx={{ textAlign: 'center' }}>
+                          <Typography variant="h2" sx={{ color: 'white', fontWeight: 800 }}>
+                            {s.value}
+                          </Typography>
+                          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                            {s.label}
+                          </Typography>
+                        </Box>
+                      ))}
                     </Box>
                   </Box>
                 </Box>
@@ -403,7 +324,7 @@ export default function Index() {
       <Box component="section" id="services" sx={{ py: 12, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
           <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
-            Our Services
+            {servicesSection.title}
           </Typography>
           <Typography 
             variant="body1" 
@@ -415,41 +336,10 @@ export default function Index() {
               mx: 'auto'
             }}
           >
-            Comprehensive solutions to empower your business across technology, logistics, and workforce management
+            {servicesSection.description}
           </Typography>
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }, gap: 4 }}>
-            {(
-              [
-                {
-                  icon: <Code fontSize="large" />,
-                  title: "Software Development",
-                  description: "Custom web, mobile, cloud systems, and enterprise solutions designed for scalability and performance.",
-                  theme: themeConfig.softwareDevelopment,
-                  path: '/services/software-development'
-                },
-                {
-                  icon: <People fontSize="large" />,
-                  title: "HR Services",
-                  description: "Recruitment, payroll, and structure setup to streamline workforce management.",
-                  theme: themeConfig.hrServices,
-                  path: '/services/hr'
-                },
-                {
-                  icon: <LocalShipping fontSize="large" />,
-                  title: "Supply Chain",
-                  description: "End-to-end logistics management, supply chain optimization, and vendor coordination.",
-                  theme: themeConfig.supplyChain,
-                  path: '/services/supply-chain'
-                },
-                {
-                  icon: <Cloud fontSize="large" />,
-                  title: "SaaS Products",
-                  description: "Cloud-based solutions and software-as-a-service platforms for modern businesses.",
-                  theme: themeConfig.saasProducts,
-                  path: '/services/saas'
-                }
-              ]
-            ).map((service, index) => (
+            {servicesSummary.map((service, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -461,8 +351,9 @@ export default function Index() {
                   component={Link}
                   to={service.path}
                   sx={(theme) => {
-                    const primary = `hsl(${service.theme.colors.primary})`;
-                    const secondary = `hsl(${service.theme.colors.secondary})`;
+                    const t = (themeConfig as any)[service.theme];
+                    const primary = `hsl(${t.colors.primary})`;
+                    const secondary = `hsl(${t.colors.secondary})`;
                     const cardBg = `linear-gradient(135deg, ${primary} 0%, ${secondary} 100%)`;
                     return {
                       height: '100%',
@@ -506,7 +397,17 @@ export default function Index() {
                         color: 'white',
                         boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
                       }}>
-                        {service.icon}
+                        {
+                          (() => {
+                            const map: Record<string, any> = {
+                              Code: <Code fontSize="large" />,
+                              People: <People fontSize="large" />,
+                              LocalShipping: <LocalShipping fontSize="large" />,
+                              Cloud: <Cloud fontSize="large" />
+                            };
+                            return map[service.iconKey] ?? <Code fontSize="large" />;
+                          })()
+                        }
                       </Box>
                     </Box>
                     <Typography variant="h5" sx={{ fontWeight: 700, mb: 1, color: 'white' }}>
@@ -533,7 +434,7 @@ export default function Index() {
       <Box component="section" id="testimonials" sx={{ py: 12, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
           <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
-            What Our Clients Say
+            {testimonialsSection.title}
           </Typography>
           <Typography 
             variant="body1" 
@@ -545,7 +446,7 @@ export default function Index() {
               mx: 'auto'
             }}
           >
-            Don't just take our word for it — hear from the businesses we've helped transform.
+            {testimonialsSection.subtitle}
           </Typography>
 
           {/* Marquee-style testimonials: duplicate list for smooth infinite scroll */}
@@ -617,7 +518,7 @@ export default function Index() {
       <Box component="section" id="projects" sx={{ py: 12, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
           <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
-            Recent Projects
+            {projectsSection.title}
           </Typography>
           <Typography 
             variant="body1" 
@@ -629,7 +530,7 @@ export default function Index() {
               mx: 'auto'
             }}
           >
-            Explore some of the innovative solutions we've delivered for our clients.
+            {projectsSection.description}
           </Typography>
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
             {projects.map((project, index) => (
@@ -688,6 +589,26 @@ export default function Index() {
         </Container>
       </Box>
 
+      {/* Why Choose Us Section (moved above Contact) */}
+      <Box component="section" id="why-choose-us" sx={{ py: 10, background: `linear-gradient(135deg, var(--hero-color, ${heroColor}) 0%, var(--hero-color-to, ${heroColorTo}) 100%)`, color: 'white' }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 1 }}>{whyChooseUs.title}</Typography>
+          <Typography variant="body1" sx={{ textAlign: 'center', color: 'rgba(255,255,255,0.92)', mb: 4, maxWidth: 920, mx: 'auto' }}>{whyChooseUs.subtitle}</Typography>
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 3, mt: 4 }}>
+            {whyChooseUs.items.map((item, idx) => (
+              <Box key={idx} sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                <CheckCircle sx={{ color: 'white', mt: '6px' }} />
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: 'white' }}>{item.title}</Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>{item.description}</Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Container>
+      </Box>
+
       {/* Contact Section */}
       <Box 
         component="section" 
@@ -702,7 +623,7 @@ export default function Index() {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography variant="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 3 }}>
-              Let's Start Your Journey
+              {contactSection.title}
             </Typography>
             <Typography 
               variant="h6" 
@@ -713,8 +634,7 @@ export default function Index() {
                 lineHeight: 1.7
               }}
             >
-              Ready to transform your business? Get in touch with our team and let's discuss 
-              how we can help you achieve your goals.
+              {contactSection.subtitle}
             </Typography>
           </Box>
 
@@ -762,6 +682,20 @@ export default function Index() {
                   label="Company Name"
                   variant="outlined"
                 />
+                <FormControl fullWidth required>
+                  <InputLabel id="service-select-label">Service of Interest</InputLabel>
+                  <Select
+                    labelId="service-select-label"
+                    id="service-select"
+                    value={selectedService}
+                    label="Service of Interest"
+                    onChange={(e) => setSelectedService(e.target.value as string)}
+                  >
+                    {servicesSummary.map((s, i) => (
+                      <MenuItem key={i} value={s.title}>{s.title}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <TextField
                   fullWidth
                   label="How can we help you?"
@@ -775,6 +709,7 @@ export default function Index() {
                   size="large"
                   endIcon={<Send />}
                   fullWidth
+                  disabled={!selectedService}
                   sx={{
                     background: heroColor,
                     transition: 'background var(--hero-transition-duration) ease, color var(--hero-transition-duration) ease',
@@ -786,7 +721,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  Send Message
+                  {contactSection.formButton}
                 </Button>
               </Box>
             </Card>
@@ -822,14 +757,13 @@ export default function Index() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                          Email Us
+                          {contactSection.info.emailHeading}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          info@techbridge.co.uk
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          support@techbridge.co.uk
-                        </Typography>
+                        {contactSection.info.emails.map((e, i) => (
+                          <Typography key={i} variant="body2" sx={{ color: 'text.secondary' }}>
+                            {e}
+                          </Typography>
+                        ))}
                       </Box>
                     </Box>
 
@@ -850,11 +784,13 @@ export default function Index() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                          Call Us
+                          {contactSection.info.callHeading}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          +44 20 1234 5678
-                        </Typography>
+                        {contactSection.info.phones.map((p, i) => (
+                          <Typography key={i} variant="body2" sx={{ color: 'text.secondary' }}>
+                            {p}
+                          </Typography>
+                        ))}
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                           Mon-Fri: 9AM - 6PM GMT
                         </Typography>
@@ -878,16 +814,36 @@ export default function Index() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                          Visit Us
+                          {contactSection.info.visitHeading}
                         </Typography>
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          London, United Kingdom
+                          {contactSection.info.address}
                         </Typography>
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                           Available for global projects
                         </Typography>
                       </Box>
                     </Box>
+
+                    {/* WhatsApp / Chatbot Contact */}
+                    {whatsappInfo?.number && (
+                      <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
+                        <Box sx={{ bgcolor: 'var(--hero-color, hsl(var(--primary)))', color: 'white', p: 1.5, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background var(--hero-transition-duration) ease' }}>
+                          <WhatsApp sx={{ fontSize: 20 }} />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>{whatsappInfo.label}</Typography>
+                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            <a href={buildWhatsAppHref()} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                              +{whatsappInfo.number}
+                            </a>
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            Chatbot available for quick questions — human support during business hours.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
                   </Stack>
                 </Card>
 
@@ -914,6 +870,38 @@ export default function Index() {
         </Box>
 
         <Footer />
+      {/* Floating WhatsApp FAB */}
+      {whatsappInfo?.number && (
+        <Box sx={{ position: 'fixed', right: { xs: 12, md: 24 }, bottom: { xs: 12, md: 24 }, zIndex: 1400 }}>
+          <Tooltip
+            title={whatsappInfo?.tooltip ?? 'Contact Us'}
+            placement="top"
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 300 }}
+            open={showWhatsAppTooltip ? true : undefined}
+          >
+            <a href={buildWhatsAppHref()} target="_blank" rel="noreferrer" aria-label="Chat with us on WhatsApp">
+              <Box
+                sx={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: '50%',
+                  bgcolor: '#25D366',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
+                  transition: 'transform 0.12s ease, box-shadow 0.12s ease',
+                  '&:hover': { transform: 'translateY(-4px) scale(1.02)', boxShadow: '0 14px 40px rgba(0,0,0,0.28)' }
+                }}
+              >
+                <WhatsApp sx={{ fontSize: 28 }} />
+              </Box>
+            </a>
+          </Tooltip>
+        </Box>
+      )}
     </div>
   );
 }

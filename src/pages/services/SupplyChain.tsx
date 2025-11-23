@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useEffect } from 'react';
 import { themeConfig } from '@/config/theme.config';
+import supplyContent from '@/content/services/supplyChain';
 import { 
   Container, 
   Typography, 
@@ -46,44 +47,8 @@ export default function SupplyChain() {
     } catch (e) {}
     try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch (e) {}
   }, []);
-  const services = [
-    "End-to-End Logistics Management",
-    "Supply Chain Optimization",
-    "Vendor & Supplier Coordination",
-    "Inventory Management Systems",
-    "Warehouse Operations",
-    "Distribution & Transportation",
-    "Procurement Services",
-    "Real-Time Tracking & Analytics"
-  ];
-
-  const benefits = [
-    {
-      icon: <LocalShipping sx={{ fontSize: 48 }} />,
-      title: "Efficient Logistics",
-      description: "Streamlined operations for faster delivery and reduced costs"
-    },
-    {
-      icon: <Inventory sx={{ fontSize: 48 }} />,
-      title: "Smart Inventory",
-      description: "Optimized inventory levels to minimize waste and maximize availability"
-    },
-    {
-      icon: <TrendingUp sx={{ fontSize: 48 }} />,
-      title: "Cost Reduction",
-      description: "Identify and eliminate inefficiencies to boost profitability"
-    },
-    {
-      icon: <PublicOutlined sx={{ fontSize: 48 }} />,
-      title: "Global Reach",
-      description: "International logistics expertise for worldwide operations"
-    },
-    {
-      icon: <AssessmentOutlined sx={{ fontSize: 48 }} />,
-      title: "Data Analytics",
-      description: "Real-time insights for informed supply chain decisions"
-    }
-  ];
+  const services = supplyContent.services;
+  const benefits = supplyContent.benefits;
 
   return (
     <div className="min-h-screen theme-supply-chain">
@@ -199,7 +164,18 @@ export default function SupplyChain() {
               >
                 <CardContent sx={{ p: 4, textAlign: 'center' }}>
                   <Box sx={{ color: 'hsl(var(--primary))', mb: 2 }}>
-                    {benefit.icon}
+                    {
+                      (() => {
+                        const map: Record<string, any> = {
+                          LocalShipping: <LocalShipping sx={{ fontSize: 48 }} />,
+                          Inventory: <Inventory sx={{ fontSize: 48 }} />,
+                          TrendingUp: <TrendingUp sx={{ fontSize: 48 }} />,
+                          PublicOutlined: <PublicOutlined sx={{ fontSize: 48 }} />,
+                          AssessmentOutlined: <AssessmentOutlined sx={{ fontSize: 48 }} />
+                        };
+                        return map[(benefit as any).iconKey] ?? <LocalShipping sx={{ fontSize: 48 }} />;
+                      })()
+                    }
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     {benefit.title}
