@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   AppBar, 
   Toolbar, 
@@ -88,9 +88,15 @@ export default function Navigation() {
     return () => { try { document.documentElement.style.removeProperty('--nav-height'); } catch (e) {} };
   }, []);
 
+  const navigate = useNavigate();
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
-      window.location.href = `/#${sectionId}`;
+      navigate('/');
+      // wait for the home page to render then scroll
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
     } else {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -298,9 +304,7 @@ export default function Navigation() {
                   </Typography>
                   <Button 
                     variant="contained"
-                    component={Link}
-                    to="/#contact"
-                    onClick={handleClose}
+                    onClick={() => { handleClose(); scrollToSection('contact'); }}
                     sx={{ 
                       bgcolor: 'white',
                       color: 'var(--hero-color)',

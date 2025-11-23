@@ -23,9 +23,17 @@ import {
   School,
   Assessment
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function HRServices() {
+  const navigate = useNavigate();
+  const navTo = (id: string) => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  };
   useEffect(() => {
     try {
       const colors = themeConfig.hrServices.colors;
@@ -108,8 +116,7 @@ export default function HRServices() {
             </Typography>
               <Button 
               variant="contained"
-              component={Link}
-              to="/#contact"
+              onClick={() => navTo('contact')}
               size="large"
               sx={{ 
                 bgcolor: 'white',
@@ -229,8 +236,7 @@ export default function HRServices() {
           </Typography>
           <Button 
             variant="contained"
-            component={Link}
-            to="/#contact"
+            onClick={() => navTo('contact')}
             size="large"
             sx={{ 
               px: 6,

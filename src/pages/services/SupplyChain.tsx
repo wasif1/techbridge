@@ -23,9 +23,17 @@ import {
   PublicOutlined,
   AssessmentOutlined
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SupplyChain() {
+  const navigate = useNavigate();
+  const navTo = (id: string) => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  };
   useEffect(() => {
     try {
       const colors = themeConfig.supplyChain.colors;
@@ -103,8 +111,7 @@ export default function SupplyChain() {
             </Typography>
             <Button 
               variant="contained"
-              component={Link}
-              to="/#contact"
+              onClick={() => navTo('contact')}
               size="large"
               sx={{ 
                 bgcolor: 'white',
@@ -264,8 +271,7 @@ export default function SupplyChain() {
           </Typography>
           <Button 
             variant="contained"
-            component={Link}
-            to="/#contact"
+            onClick={() => navTo('contact')}
             size="large"
             sx={{ 
               px: 6,

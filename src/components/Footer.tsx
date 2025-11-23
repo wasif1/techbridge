@@ -1,5 +1,5 @@
 import { Box, Container, Typography, IconButton, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { themeConfig } from '@/config/theme.config';
 import { 
   Facebook, 
@@ -13,6 +13,16 @@ import {
 } from "@mui/icons-material";
 
 export default function Footer() {
+  const navigate = useNavigate();
+
+  const navTo = (id: string) => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  };
+
   return (
     <Box
       component="footer"
@@ -126,18 +136,18 @@ export default function Footer() {
               Company
             </Typography>
             <Stack spacing={1.5}>
-              <Link to="/#about" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
+              <a href="#about" onClick={(e) => { e.preventDefault(); navTo('about'); }} style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease', cursor: 'pointer' }}>
                 About Us
-              </Link>
-              <Link to="/#testimonials" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
+              </a>
+              <a href="#testimonials" onClick={(e) => { e.preventDefault(); navTo('testimonials'); }} style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease', cursor: 'pointer' }}>
                 Testimonials
-              </Link>
-              <Link to="/#projects" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
+              </a>
+              <a href="#projects" onClick={(e) => { e.preventDefault(); navTo('projects'); }} style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease', cursor: 'pointer' }}>
                 Projects
-              </Link>
-              <Link to="/#contact" style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease' }}>
+              </a>
+              <a href="#contact" onClick={(e) => { e.preventDefault(); navTo('contact'); }} style={{ color: 'var(--hero-color, hsl(var(--primary)))', textDecoration: 'none', opacity: 0.95, fontSize: '0.9rem', transition: 'color var(--hero-transition-duration) ease', cursor: 'pointer' }}>
                 Contact
-              </Link>
+              </a>
             </Stack>
           </Box>
 

@@ -16,6 +16,7 @@ import { FormatQuote, Launch, Facebook, Twitter, LinkedIn, Instagram } from "@mu
 import { useEffect, useState } from "react";
 import { Code, LocalShipping, People, Cloud } from "@mui/icons-material";
 import Navigation from "@/components/Navigation";
+import { Link } from 'react-router-dom';
 import Footer from "@/components/Footer";
 import { themeConfig } from "@/config/theme.config";
 
@@ -457,8 +458,8 @@ export default function Index() {
                 viewport={{ once: true }}
               >
                 <Card
-                  component="a"
-                  href={service.path}
+                  component={Link}
+                  to={service.path}
                   sx={(theme) => {
                     const primary = `hsl(${service.theme.colors.primary})`;
                     const secondary = `hsl(${service.theme.colors.secondary})`;

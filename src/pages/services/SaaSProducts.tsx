@@ -25,9 +25,17 @@ import {
   TrendingUp,
   Groups
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SaaSProducts() {
+  const navigate = useNavigate();
+  const navTo = (id: string) => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  };
   useEffect(() => {
     try {
       const colors = themeConfig.saasProducts.colors;
@@ -132,8 +140,7 @@ export default function SaaSProducts() {
             </Typography>
             <Button 
               variant="contained"
-              component={Link}
-              to="/#contact"
+              onClick={() => navTo('contact')}
               size="large"
               sx={{ 
                 bgcolor: 'white',
@@ -309,8 +316,7 @@ export default function SaaSProducts() {
                     variant={plan.highlighted ? "contained" : "outlined"}
                     fullWidth
                     size="large"
-                    component={Link}
-                    to="/#contact"
+                    onClick={() => navTo('contact')}
                     sx={{
                       ...(plan.highlighted && {
                         background: 'linear-gradient(135deg, hsl(var(--hero-gradient-from)), hsl(var(--hero-gradient-to)))',
@@ -344,8 +350,7 @@ export default function SaaSProducts() {
           </Typography>
           <Button 
             variant="contained"
-            component={Link}
-            to="/#contact"
+            onClick={() => navTo('contact')}
             size="large"
             sx={{ 
               px: 6,
