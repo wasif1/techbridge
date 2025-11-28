@@ -149,6 +149,45 @@ export const themeConfig = {
     }
   }
   ,
+  // Optional video sources for pages (used by hero/backgrounds)
+  // You can replace these URLs with your own hosted MP4/WebM files or paths.
+  videos: {
+    home: {
+      // sample HD mp4 (public sample) — replace with your own URL or local path
+      url: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+      poster: 'https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=2000&auto=format&fit=crop'
+    },
+    softwareDevelopment: {
+      url: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+      poster: ''
+    },
+    hrServices: {
+      url: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+      poster: ''
+    },
+    supplyChain: {
+      url: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+      poster: ''
+    },
+    saasProducts: {
+      url: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
+      poster: ''
+    }
+  },
+  // Social icons visibility controls (toggle icons on/off from one place)
+  socialIcons: {
+    // Master switch to enable or disable all social icons in the footer/navigation
+    enabled: true,
+    // Individual icon visibility (set true to show)
+    show: {
+      linkedin: true,
+      upwork: false,
+      facebook: false,
+      twitter: false,
+      instagram: true,
+      youtube: false
+    }
+  },
   // Site-wide small content (headline that shows above footer when enabled)
   siteHeadline: {
     enabled: true,

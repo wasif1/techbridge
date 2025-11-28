@@ -107,18 +107,56 @@ export default function TopHeadline() {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', ml: 2 }}>
-        <IconButton href="https://facebook.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
-          <Facebook fontSize="small" />
-        </IconButton>
-        <IconButton href="https://twitter.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
-          <Twitter fontSize="small" />
-        </IconButton>
-        <IconButton href="https://linkedin.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
-          <LinkedIn fontSize="small" />
-        </IconButton>
-        <IconButton href="https://instagram.com" target="_blank" rel="noreferrer" sx={{ color: 'white', pointerEvents: 'auto' }}>
-          <Instagram fontSize="small" />
-        </IconButton>
+        {/* Render social icons based on config in theme.config.ts */}
+        { (themeConfig as any).socialIcons?.enabled && (themeConfig as any).socialIcons?.show?.linkedin && (
+          <IconButton
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+            sx={{
+              color: 'white',
+              pointerEvents: 'auto',
+              transition: 'all 0.18s ease',
+              '&:hover': {
+                bgcolor: 'transparent',
+                '& svg': {
+                  background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }
+              }
+            }}
+          >
+            <LinkedIn fontSize="small" />
+          </IconButton>
+        )}
+
+        { (themeConfig as any).socialIcons?.enabled && (themeConfig as any).socialIcons?.show?.upwork && (
+          <IconButton
+            href="https://www.upwork.com"
+            target="_blank"
+            rel="noreferrer"
+            sx={{
+              color: 'white',
+              pointerEvents: 'auto',
+              transition: 'all 0.18s ease',
+              '&:hover': {
+                bgcolor: 'transparent',
+                '& svg': {
+                  background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }
+              }
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.5 12c0-2.485 2.015-4.5 4.5-4.5 1.242 0 2.364.497 3.178 1.304l1.06-1.06A6.002 6.002 0 0 0 11 6.5C7.962 6.5 5.25 9.212 5.25 12.25S7.962 18 11 18c2.174 0 4.01-1.319 4.74-3.203l-1.14-.456A3.5 3.5 0 0 1 11 15.5c-1.933 0-3.5-1.567-3.5-3.5z" fill="currentColor" />
+            </svg>
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

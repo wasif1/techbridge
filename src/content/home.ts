@@ -202,7 +202,7 @@ export const contactSection = {
     label: 'WhatsApp Chat',
     tooltip: 'Contact Us',
     // placeholder number, update to your business/chatbot number in E.164 without +
-    number: '971582063406'
+    number: ''
   },
 
   // Prefilled message template for WhatsApp chat. Use {service} where you want the selected

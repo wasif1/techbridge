@@ -146,10 +146,20 @@ export default function Navigation() {
               component={Link} 
               to="/"
               sx={{ 
-                color: isActive('/') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
+                background: isActive('/') ? 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)' : 'transparent',
+                WebkitBackgroundClip: isActive('/') ? 'text' : 'unset',
+                WebkitTextFillColor: isActive('/') ? 'transparent' : 'unset',
+                backgroundClip: isActive('/') ? 'text' : 'unset',
+                color: !isActive('/') ? 'text.primary' : 'unset',
                 fontWeight: isActive('/') ? 600 : 400,
-                transition: 'color var(--hero-transition-duration) ease',
-                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
+                transition: 'all 0.3s ease',
+                '&:hover': { 
+                  color: !isActive('/') ? 'var(--hero-color, hsl(var(--primary)))' : 'unset',
+                  background: !isActive('/') ? 'transparent' : 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                  WebkitBackgroundClip: !isActive('/') ? 'unset' : 'text',
+                  WebkitTextFillColor: !isActive('/') ? 'unset' : 'transparent',
+                  backgroundClip: !isActive('/') ? 'unset' : 'text'
+                }
               }}
             >
               Home
@@ -170,10 +180,20 @@ export default function Navigation() {
               onClick={handleClick}
               endIcon={<ArrowForward sx={{ transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />}
               sx={{ 
-                color: location.pathname.includes('/services') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
+                background: location.pathname.includes('/services') ? 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)' : 'transparent',
+                WebkitBackgroundClip: location.pathname.includes('/services') ? 'text' : 'unset',
+                WebkitTextFillColor: location.pathname.includes('/services') ? 'transparent' : 'unset',
+                backgroundClip: location.pathname.includes('/services') ? 'text' : 'unset',
+                color: !location.pathname.includes('/services') ? 'text.primary' : 'unset',
                 fontWeight: location.pathname.includes('/services') ? 600 : 400,
-                transition: 'color var(--hero-transition-duration) ease',
-                '&:hover': { color: 'var(--hero-color, hsl(var(--primary)))' }
+                transition: 'all 0.3s ease',
+                '&:hover': { 
+                  color: !location.pathname.includes('/services') ? 'var(--hero-color, hsl(var(--primary)))' : 'unset',
+                  background: !location.pathname.includes('/services') ? 'transparent' : 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                  WebkitBackgroundClip: !location.pathname.includes('/services') ? 'unset' : 'text',
+                  WebkitTextFillColor: !location.pathname.includes('/services') ? 'unset' : 'transparent',
+                  backgroundClip: !location.pathname.includes('/services') ? 'unset' : 'text'
+                }
               }}
             >
               Services
@@ -195,11 +215,12 @@ export default function Navigation() {
               onClick={() => scrollToSection('contact')}
               sx={{ 
                 ml: 2,
-                background: 'var(--hero-color, hsl(var(--primary)))',
+                background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
                 boxShadow: 'var(--shadow-elegant)',
-                transition: 'background var(--hero-transition-duration) ease',
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   boxShadow: '0 15px 40px -15px rgba(0,0,0,0.15)',
+                  transform: 'translateY(-2px)'
                 }
               }}
             >
@@ -285,21 +306,20 @@ export default function Navigation() {
                     sx={{
                       height: '100%',
                       borderRadius: 3,
-                      // use the hero color (solid) as a reliable fallback for the menu panel
-                      background: 'var(--hero-color, hsl(var(--hero-gradient-from)))',
+                      background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       p: 3,
                       color: 'white',
-                      transition: 'background var(--hero-transition-duration) ease'
+                      transition: 'background 0.3s ease'
                     }}
                   >
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: 'white' }}>
                     Ready to Scale?
                   </Typography>
-                  <Typography variant="body2" sx={{ mb: 3, opacity: 0.9 }}>
+                  <Typography variant="body2" sx={{ mb: 3, opacity: 0.95, color: 'white' }}>
                     Let's discuss how we can accelerate your business growth
                   </Typography>
                   <Button 
@@ -307,10 +327,14 @@ export default function Navigation() {
                     onClick={() => { handleClose(); scrollToSection('contact'); }}
                     sx={{ 
                       bgcolor: 'white',
+                      background: 'linear-gradient(135deg, white 0%, rgba(255,255,255,0.95) 100%)',
                       color: 'var(--hero-color)',
-                      transition: 'color var(--hero-transition-duration) ease',
+                      fontWeight: 600,
+                      transition: 'all 0.3s ease',
                       '&:hover': { 
-                        bgcolor: 'rgba(255,255,255,0.9)' 
+                        bgcolor: 'rgba(255,255,255,0.95)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 20px rgba(0,0,0,0.2)'
                       }
                     }}
                   >
@@ -355,7 +379,11 @@ export default function Navigation() {
               fullWidth
               sx={{ 
                 justifyContent: 'flex-start',
-                color: isActive('/') ? 'var(--hero-color, hsl(var(--primary)))' : 'text.primary',
+                background: isActive('/') ? 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)' : 'transparent',
+                WebkitBackgroundClip: isActive('/') ? 'text' : 'unset',
+                WebkitTextFillColor: isActive('/') ? 'transparent' : 'unset',
+                backgroundClip: isActive('/') ? 'text' : 'unset',
+                color: !isActive('/') ? 'text.primary' : 'unset',
                 fontWeight: isActive('/') ? 600 : 400,
                 py: 1.5
               }}
@@ -443,9 +471,13 @@ export default function Navigation() {
               fullWidth
               sx={{ 
                 mt: 2,
-                background: 'var(--hero-color, hsl(var(--primary)))',
-                transition: 'background var(--hero-transition-duration) ease',
-                py: 1.5
+                background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                transition: 'all 0.3s ease',
+                py: 1.5,
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.2)'
+                }
               }}
             >
               Get Started

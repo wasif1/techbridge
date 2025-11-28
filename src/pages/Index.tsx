@@ -31,19 +31,12 @@ import { themeConfig } from "@/config/theme.config";
   const projects = projectsData;
 
 export default function Index() {
-  // Image slider for the home hero. Each slide provides an image and a matching accent color
+  // Use first slide's theme for hero color (static, no carousel)
   // Services pages remain static and use their per-page theme classes.
-  // Build slides from content constants and theme config so visuals stay data-driven
-  const slides = slidesData.map((s) => {
-    const colors = getSlideTheme(s.theme);
-    return {
-      img: s.img,
-      from: `hsl(${colors.primary})`,
-      to: `hsl(${colors.secondary})`
-    };
-  });
+  const heroTheme = getSlideTheme(slidesData[0].theme);
+  const heroColor = `hsl(${heroTheme.primary})`;
+  const heroColorTo = `hsl(${heroTheme.secondary})`;
 
-  const [active, setActive] = useState(0);
   const [selectedService, setSelectedService] = useState('');
   // support both possible shapes (contactSection.whatsapp or contactSection.info.whatsapp)
   const whatsappInfo = ((contactSection as any).whatsapp) || ((contactSection.info as any).whatsapp);
@@ -68,22 +61,13 @@ export default function Index() {
     return `https://wa.me/${whatsappInfo.number}?text=${encoded}`;
   };
 
-  useEffect(() => {
-    const id = setInterval(() => setActive((s) => (s + 1) % slides.length), 5000);
-    return () => clearInterval(id);
-  }, []);
-
-  const heroBg = `linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.15)), url(${slides[active].img})`;
-  const heroColor = slides[active].from;
-  const heroColorTo = slides[active].to;
-
   // expose accent color to the document root so header/footer and other components
-  // reliably pick up the dynamic hue while on the home page
+  // reliably pick up the hero color while on the home page
   useEffect(() => {
     try {
       document.documentElement.style.setProperty('--hero-color', heroColor);
       document.documentElement.style.setProperty('--hero-color-to', heroColorTo);
-      document.documentElement.style.setProperty('--hero-transition-duration', '2200ms');
+      document.documentElement.style.setProperty('--hero-transition-duration', '0.3s');
     } catch (e) {
       // SSR or environments without document
     }
@@ -113,28 +97,44 @@ export default function Index() {
             left: 0,
             right: 0,
             bottom: 0,
+            background: 'linear-gradient(180deg, rgba(2,6,23,0.5), rgba(2,6,23,0.3))',
+            pointerEvents: 'none',
+            zIndex: 1
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             background: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            zIndex: 2
           }
         }}
       >
-        {/* Layered hero backgrounds for smooth fade */}
-        {slides.map((s, i) => (
-          <Box
-            key={i}
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `linear-gradient(180deg, rgba(2,6,23,0.35), rgba(2,6,23,0.15)), url(${s.img})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              transition: 'opacity var(--hero-transition-duration) ease',
-              opacity: i === active ? 1 : 0,
-              zIndex: 0
-            }}
-            aria-hidden={i === active ? 'false' : 'true'}
-          />
-        ))}
+        {/* Hero Video Background (configurable via themeConfig.videos.home) */}
+        <Box
+          component="video"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0
+          }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={themeConfig?.videos?.home?.poster || 'https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=2000&auto=format&fit=crop'}
+        >
+          <source src={themeConfig?.videos?.home?.url || 'https://media.w3schools.com/browser-support/sample-video.mp4'} type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          Your browser does not support the video tag.
+        </Box>
 
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <motion.div
@@ -323,7 +323,7 @@ export default function Index() {
       {/* Services Section */}
       <Box component="section" id="services" sx={{ py: 12, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
-          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
+          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3, background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             {servicesSection.title}
           </Typography>
           <Typography 
@@ -433,7 +433,7 @@ export default function Index() {
       {/* Testimonials Section */}
       <Box component="section" id="testimonials" sx={{ py: 12, bgcolor: 'background.paper' }}>
         <Container maxWidth="lg">
-          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
+          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3, background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             {testimonialsSection.title}
           </Typography>
           <Typography 
@@ -479,14 +479,15 @@ export default function Index() {
                       display: 'flex',
                       flexDirection: 'column',
                       transition: 'all 0.25s ease',
-                      borderLeft: `6px solid var(--hero-color, hsl(var(--primary)))`,
+                      borderLeft: `6px solid`,
+                      borderImage: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%) 1',
                       boxShadow: '0 8px 30px rgba(2,6,23,0.06)',
                       '&:hover': { transform: 'translateY(-6px)' }
                     })}
                   >
                     <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Avatar sx={{ bgcolor: 'var(--hero-color, hsl(var(--primary)))', width: 48, height: 48, transition: 'background var(--hero-transition-duration) ease' }}>
+                        <Avatar sx={{ background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', width: 48, height: 48, transition: 'background 0.3s ease' }}>
                           {testimonial.name.split(' ').map(n => n[0]).slice(0,2).join('')}
                         </Avatar>
                         <Box>
@@ -497,7 +498,7 @@ export default function Index() {
                             {testimonial.role}, {testimonial.company}
                           </Typography>
                         </Box>
-                        <Box sx={{ ml: 'auto', color: 'var(--hero-color, hsl(var(--primary)))', transition: 'color var(--hero-transition-duration) ease' }}>
+                        <Box sx={{ ml: 'auto', background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', transition: 'background 0.3s ease' }}>
                           {'★'.repeat(testimonial.rating)}
                         </Box>
                       </Box>
@@ -517,7 +518,7 @@ export default function Index() {
       {/* Projects Section */}
       <Box component="section" id="projects" sx={{ py: 12, bgcolor: 'grey.50' }}>
         <Container maxWidth="lg">
-          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3 }}>
+          <Typography variant="h3" sx={{ fontWeight: 700, textAlign: 'center', mb: 3, background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             {projectsSection.title}
           </Typography>
           <Typography 
@@ -622,7 +623,7 @@ export default function Index() {
       >
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 3 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 3, background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               {contactSection.title}
             </Typography>
             <Typography 
@@ -711,13 +712,14 @@ export default function Index() {
                   fullWidth
                   disabled={!selectedService}
                   sx={{
-                    background: heroColor,
-                    transition: 'background var(--hero-transition-duration) ease, color var(--hero-transition-duration) ease',
+                    background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
+                    transition: 'all 0.3s ease',
                     color: 'white',
                     py: 1.5,
                     fontWeight: 600,
                     '&:hover': {
-                      boxShadow: '0 8px 25px rgba(0,0,0,0.2)'
+                      boxShadow: '0 8px 25px rgba(0,0,0,0.2)',
+                      transform: 'translateY(-2px)'
                     }
                   }}
                 >
@@ -743,14 +745,14 @@ export default function Index() {
                     <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
                       <Box 
                         sx={{ 
-                          bgcolor: 'var(--hero-color, hsl(var(--primary)))', 
+                          background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
                           color: 'white',
                           p: 1.5,
                           borderRadius: 2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          transition: 'background var(--hero-transition-duration) ease'
+                          transition: 'background 0.3s ease'
                         }}
                       >
                         <Mail size={24} />
@@ -770,14 +772,14 @@ export default function Index() {
                     <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
                       <Box 
                         sx={{ 
-                          bgcolor: 'var(--hero-color, hsl(var(--primary)))', 
+                          background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
                           color: 'white',
                           p: 1.5,
                           borderRadius: 2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          transition: 'background var(--hero-transition-duration) ease'
+                          transition: 'background 0.3s ease'
                         }}
                       >
                         <Phone size={24} />
@@ -800,14 +802,14 @@ export default function Index() {
                     <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
                       <Box 
                         sx={{ 
-                          bgcolor: 'var(--hero-color, hsl(var(--primary)))', 
+                          background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)',
                           color: 'white',
                           p: 1.5,
                           borderRadius: 2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          transition: 'background var(--hero-transition-duration) ease'
+                          transition: 'background 0.3s ease'
                         }}
                       >
                         <MapPin size={24} />
@@ -828,7 +830,7 @@ export default function Index() {
                     {/* WhatsApp / Chatbot Contact */}
                     {whatsappInfo?.number && (
                       <Box sx={{ display: 'flex', alignItems: 'start', gap: 2 }}>
-                        <Box sx={{ bgcolor: 'var(--hero-color, hsl(var(--primary)))', color: 'white', p: 1.5, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background var(--hero-transition-duration) ease' }}>
+                        <Box sx={{ background: 'linear-gradient(135deg, var(--hero-color, hsl(var(--primary))) 0%, var(--hero-color-to, hsl(var(--secondary))) 100%)', color: 'white', p: 1.5, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.3s ease' }}>
                           <WhatsApp sx={{ fontSize: 20 }} />
                         </Box>
                         <Box>
